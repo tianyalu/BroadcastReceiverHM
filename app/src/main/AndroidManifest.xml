@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sty.broadcast.receiver">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.sty.broadcast.receiver.receiver.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.ReceiveCustomReceiver">
+            <intent-filter>
+                <action android:name="com.sty.custom.broadcast"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 有序广播的广播接收者 -->
+        <receiver android:name=".orderreceiver.ProvinceRiceReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="com.sty.custom.broadcast.rice"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".orderreceiver.CityRiceReceiver">
+            <intent-filter android:priority="800">
+                <action android:name="com.sty.custom.broadcast.rice"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".orderreceiver.CountryRiceReceiver">
+            <intent-filter android:priority="100">
+                <action android:name="com.sty.custom.broadcast.rice"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".orderreceiver.FarmerRiceReceiver">
+            <intent-filter android:priority="10">
+                <action android:name="com.sty.custom.broadcast.rice"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 特殊的广播接收者，此类广播在清单文件中注册无效 -> 需要在代码中动态注册-->
+        <receiver android:name=".specialreceiver.ScreenReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+                <action android:name="android.intent.action.SCREEN_OFF"/>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
